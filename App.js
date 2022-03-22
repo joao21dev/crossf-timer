@@ -13,19 +13,10 @@ const AppNavigator = createStackNavigator(
     Home: { screen: HomeScreen, navigationOptions: { headerShown: false } },
     EMOM: { screen: EMOMScreen, navigationOptions: { headerShown: false } },
   },
-  { initialRouteName: "Home" },
-  {
-    headerMode: "none",
-    navigationOptions: {
-      headerVisible: false,
-    },
-    
-  },
-  
+  { initialRouteName: "Home" }
 );
 
 export default createAppContainer(AppNavigator);
-
 
 const styles = StyleSheet.create({
   container: {
