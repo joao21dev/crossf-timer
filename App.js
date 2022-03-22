@@ -13,35 +13,19 @@ const AppNavigator = createStackNavigator(
     Home: { screen: HomeScreen, navigationOptions: { headerShown: false } },
     EMOM: { screen: EMOMScreen, navigationOptions: { headerShown: false } },
   },
-  { initialRouteName: "EMOM" },
+  { initialRouteName: "Home" },
   {
     headerMode: "none",
     navigationOptions: {
       headerVisible: false,
     },
-  }
+    
+  },
+  
 );
 
 export default createAppContainer(AppNavigator);
 
-// export default function App() {
-//   let [fontsLoaded] = useFonts({
-//     Ubuntu_700Bold,
-//   });
-
-//   if (!fontsLoaded) {
-//     return <h1>Deu erro</h1>;
-//   }
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={{ fontFamily: "Ubuntu_700Bold", fontSize: 40 }}>
-//         Open up App.js to start working on your app!a
-//       </Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
 
 const styles = StyleSheet.create({
   container: {
