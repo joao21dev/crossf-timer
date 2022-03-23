@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import AppLoading from "expo-app-loading";
-import {
-  useFonts,
-  Ubuntu_400Regular,
-  Ubuntu_700Bold,
-} from "@expo-google-fonts/ubuntu";
 import Button from "../components/Button";
+import AppLoading from "expo-app-loading";
+import { useFonts, Ubuntu_700Bold, Ubuntu_400Regular } from "@expo-google-fonts/ubuntu";
 
 const HomeScreen = (props) => {
   let [fontsLoaded] = useFonts({
-    Ubuntu_400Regular,
     Ubuntu_700Bold,
+    Ubuntu_400Regular
   });
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -46,7 +43,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     color: "white",
-    fontFamily: "Ubuntu-400Regular",
+    fontFamily: "Ubuntu_400Regular",
     fontSize: 24,
     textAlign: "center",
     margin: 20,
