@@ -1,13 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Button from "../components/Button";
 import AppLoading from "expo-app-loading";
-import { useFonts, Ubuntu_700Bold, Ubuntu_400Regular } from "@expo-google-fonts/ubuntu";
+import {
+  useFonts,
+  Ubuntu_700Bold,
+  Ubuntu_400Regular,
+} from "@expo-google-fonts/ubuntu";
+import { Raleway_700Bold } from "@expo-google-fonts/raleway";
 
 const HomeScreen = (props) => {
   let [fontsLoaded] = useFonts({
     Ubuntu_700Bold,
-    Ubuntu_400Regular
+    Ubuntu_400Regular,
+    Raleway_700Bold,
   });
 
   if (!fontsLoaded) {

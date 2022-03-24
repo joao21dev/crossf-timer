@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, Component } from "react";
 import {
   ScrollView,
+  View,
   Text,
   StyleSheet,
   TextInput,
@@ -8,86 +9,147 @@ import {
 } from "react-native";
 import Select from "../components/Select";
 import Title from "../components/Title";
-import { Ionicons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
+import Time from "../components/Time";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import ProgressBar from "../components/ProgressBar";
 
-const EMOMScreen = (props) => {
-  const [alerts, setAlerts] = useState(0);
-  const [countdown, setCountdown] = useState(0);
-  const [time, setTime] = useState("15");
-  return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
-      <ScrollView style={styles.container}>
-        <Title
-          subTitle={"Every Minute On the Minute"}
-          title={"EMOM"}
-          style={{ paddingTop: 200 }}
-        />
-        <Ionicons
-          name="settings-sharp"
-          style={{
-            alignSelf: "center",
-            fontSize: 53,
-            color: "white",
-            marginBottom: 17,
-          }}
-        />
-        <Select
-          label="Alertas:"
-          current={alerts}
-          options={[
-            {
-              id: 0,
-              label: "DESLIGADO",
-            },
-            {
-              id: 15,
-              label: "15s",
-            },
-            {
-              id: 30,
-              label: "30s",
-            },
-            {
-              id: 45,
-              label: "45s",
-            },
-          ]}
-          onSelect={(opt) => setAlerts(opt)}
-        />
-        <Select
-          label="Contagem regressiva:"
-          current={countdown}
-          options={[
-            {
-              id: 1,
-              label: "SIM",
-            },
-            {
-              id: 0,
-              label: "NÃO",
-            },
-          ]}
-          onSelect={(opt) => setCountdown(opt)}
-        />
-        <Text style={styles.label}>Quantos minutos:</Text>
-        <TextInput
-          style={styles.input}
-          value={time}
-          onChangeText={(text) => setTime(text)}
-          keyboardType="numeric"
-        />
-        <Text style={styles.label}>Minutos</Text>
-        <AntDesign
-          name="playcircleo"
-          style={{ alignSelf: "center", fontSize: 53, color: "white" }}
-        />
-        <Text>Testar</Text>
-        <Text>{JSON.stringify([alerts, time, countdown])}</Text>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  );
-};
+class EMOMScreen extends Component {
+  state = {
+    alerts: 0,
+    countdown: 1,
+    time: "2",
+    isRunning: false,
+    countdownValue: 5,
+    count: 0,
+  };
+
+  componentDidMount() {
+    this.play();
+  }
+
+  play = () => {
+    this.setState({ isRunning: true });
+    const count = () => {
+      this.setState({ count: this.state.count + 1 }, () => {
+        if (this.state.count === parseInt(this.state.time) * 60) {
+          clearInterval(this.countTimer);
+        }
+      });
+    };
+    if (this.state.countdown === 1) {
+      this.countdownTimer = setInterval(() => {
+        this.setState({ countdownValue: this.state.countdownValue - 1 }, () => {
+          if (this.state.countdownValue === 0) {
+            clearInterval(this.countdownTimer);
+            this.countTimer = setInterval(count, 100);
+          }
+        });
+      }, 1000);
+    } else {
+      this.countTimer = setInterval(count, 100);
+    }
+  };
+
+  render() {
+    if (this.state.isRunning) {
+      const percMinute = (this.state.count % 60) / 60;
+      const percTime = parseInt(
+        (this.state.count / 60 / parseInt(this.state.time)) * 100
+      );
+      return (
+        <View style={[styles.container, { justifyContent: "center" }]}>
+          <Title
+            subTitle={"Every Minute On the Minute"}
+            title={"EMOM"}
+            style={{ paddingTop: 200 }}
+          />
+          <Text>Countdown: {this.state.countdownValue}</Text>
+          <Text>Countdown: {this.state.count}</Text>
+          <Time time={this.state.count} />
+          <Text>Minute: {percMinute}</Text>
+          <Text>Time: {percTime}</Text>
+          <ProgressBar percentage={percTime} />
+        </View>
+      );
+    }
+    return (
+      //
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="height">
+        <ScrollView style={styles.container}>
+          <Title
+            subTitle={"Every Minute On the Minute"}
+            title={"EMOM"}
+            style={{ paddingTop: 200 }}
+          />
+          <Ionicons
+            name="settings-sharp"
+            style={{
+              alignSelf: "center",
+              fontSize: 53,
+              color: "white",
+              marginBottom: 17,
+            }}
+          />
+          <Select
+            label="Alertas:"
+            current={this.state.alerts}
+            options={[
+              {
+                id: 0,
+                label: "DESLIGADO",
+              },
+              {
+                id: 15,
+                label: "15s",
+              },
+              {
+                id: 30,
+                label: "30s",
+              },
+              {
+                id: 45,
+                label: "45s",
+              },
+            ]}
+            onSelect={(opt) => this.setState({ alerts: opt })}
+          />
+          <Select
+            label="Contagem regressiva:"
+            current={this.state.countdown}
+            options={[
+              {
+                id: 1,
+                label: "SIM",
+              },
+              {
+                id: 0,
+                label: "NÃO",
+              },
+            ]}
+            onSelect={(opt) => this.setState({ countdown: opt })}
+          />
+          <Text style={styles.label}>Quantos minutos:</Text>
+          <TextInput
+            style={styles.input}
+            value={this.state.time}
+            onChangeText={(text) => this.setState({ time: text })}
+            keyboardType="numeric"
+          />
+          <Text style={styles.label}>Minutos</Text>
+
+          <TouchableOpacity onPress={this.play} style={{ alignSelf: "center" }}>
+            <AntDesign
+              name="playcircleo"
+              style={{ fontSize: 53, color: "white" }}
+            />
+          </TouchableOpacity>
+          <Text>Testar</Text>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
