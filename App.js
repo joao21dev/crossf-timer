@@ -21,7 +21,7 @@ const AppNavigator = createStackNavigator(
     Home: { screen: HomeScreen, navigationOptions: { headerShown: false } },
     EMOM: { screen: EMOMScreen, navigationOptions: { headerShown: false } },
   },
-  { initialRouteName: "Home" }
+  { initialRouteName: "EMOM" }
 );
 
 export default createAppContainer(AppNavigator);

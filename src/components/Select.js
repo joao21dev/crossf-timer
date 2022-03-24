@@ -21,7 +21,9 @@ class Select extends Component {
     const { options, label } = this.props;
     const { current } = this.state;
     return (
-      <View style={{ flex: 1 }}>
+      <View
+      // style={{ flex: 1 }}
+      >
         <Text style={styleSelect.label}>{label}</Text>
         <View
           style={{
