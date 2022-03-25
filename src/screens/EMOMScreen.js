@@ -13,6 +13,7 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import Time from "../components/Time";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ProgressBar from "../components/ProgressBar";
+import BackgroundProgress from "../components/BackgroundProgress";
 
 class EMOMScreen extends Component {
   state = {
@@ -53,24 +54,26 @@ class EMOMScreen extends Component {
 
   render() {
     if (this.state.isRunning) {
-      const percMinute = (this.state.count % 60) / 60;
+      const percMinute = parseInt(((this.state.count % 60) / 60) * 100);
       const percTime = parseInt(
         (this.state.count / 60 / parseInt(this.state.time)) * 100
       );
       return (
-        <View style={[styles.container, { justifyContent: "center" }]}>
-          <Title
-            subTitle={"Every Minute On the Minute"}
-            title={"EMOM"}
-            style={{ paddingTop: 200 }}
-          />
-          <Text>Countdown: {this.state.countdownValue}</Text>
-          <Text>Countdown: {this.state.count}</Text>
-          <Time time={this.state.count} />
-          <Text>Minute: {percMinute}</Text>
-          <Text>Time: {percTime}</Text>
-          <ProgressBar percentage={percTime} />
-        </View>
+        <BackgroundProgress percentage={percMinute}>
+          <View style={{ justifyContent: "center", flex: 1 }}>
+            <Text>Countdown: {this.state.countdownValue}</Text>
+            <Text>Countdown: {this.state.count}</Text>
+            <Time time={this.state.count} />
+            <ProgressBar percentage={percTime} />
+            <Time
+              time={parseInt(this.state.time * 60) - this.state.count}
+              type="text2"
+              appendedText={" restantes"}
+            />
+            <Text>Minute: {percMinute}</Text>
+            <Text>Time: {percTime}</Text>
+          </View>
+        </BackgroundProgress>
       );
     }
     return (

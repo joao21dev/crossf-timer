@@ -1,24 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Button from "../components/Button";
-import AppLoading from "expo-app-loading";
-import {
-  useFonts,
-  Ubuntu_700Bold,
-  Ubuntu_400Regular,
-} from "@expo-google-fonts/ubuntu";
-import { Raleway_700Bold } from "@expo-google-fonts/raleway";
+import Fonts from "../components/Fonts";
 
 const HomeScreen = (props) => {
-  let [fontsLoaded] = useFonts({
-    Ubuntu_700Bold,
-    Ubuntu_400Regular,
-    Raleway_700Bold,
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  Fonts();
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>CrossFTimer</Text>

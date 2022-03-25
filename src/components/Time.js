@@ -1,5 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
+
+import Fonts from "./Fonts";
 
 const Time = (props) => {
   const minutes = parseInt(props.time / 60);
@@ -10,13 +12,28 @@ const Time = (props) => {
     }
     return num;
   };
+  Fonts();
   return (
-    <Text>
+    <Text style={styles[props.type ? props.type : "text"]}>
       {format(minutes)}:{format(seconds)}
+      {props.appendedText}
     </Text>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 96,
+    fontFamily: "Ubuntu_700Bold",
+    color: "white",
+    textAlign: "center",
+  },
+  text2: {
+    fontFamily: "Ubuntu_400Regular",
+    color: "white",
+    textAlign: "center",
+    fontSize: 24,
+  },
+});
 
 export default Time;
