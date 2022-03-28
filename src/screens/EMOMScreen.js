@@ -14,6 +14,7 @@ import Time from "../components/Time";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import ProgressBar from "../components/ProgressBar";
 import BackgroundProgress from "../components/BackgroundProgress";
+import { Audiio } from "expo-av";
 
 class EMOMScreen extends Component {
   state = {
@@ -25,7 +26,11 @@ class EMOMScreen extends Component {
     count: 0,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+      interrupt
+    });
     this.play();
   }
 
